@@ -16,3 +16,31 @@ class Stack:
 
      def size(self):
          return len(self.items)
+
+     def open(self):
+         print(self.items())
+         return
+      
+
+
+def isInt(value): #to test if input is an integer or operator
+  try:
+    int(value)
+    return True
+  except:
+    return False
+
+text = input("Input Postfix String: ")
+
+postfix = Stack()
+
+for i in text:
+     postfix.push(i) #Stack for postfix list of instructions now complete
+
+
+
+
+
+#for i in text:
+#    if isInt(i)==False:
+#      operator.append(i)

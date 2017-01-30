@@ -30,16 +30,32 @@ def isInt(value): #to test if input is an integer or operator
   except:
     return False
 
+stack = Stack()
+
+
 text = input("Input Postfix String: ")
 
-postfix = Stack()
 
 for i in text:
-     postfix.push(i) #Stack for postfix list of instructions now complete
+     
+     if i != isInt(i):
+          i = int(i)
+          stack.push(i) #Stack for postfix list of instructions now complete
+     elif i == "+":
+          a = stack.pop()
+          b = stack.pop()
+          c = a + b
+          stack.push(c)
+     else:
+          pass
+
+print ("Answer = ",stack.pop())
+          
 
 
 
-
+#adding to the operand stack
+     
 
 #for i in text:
 #    if isInt(i)==False:

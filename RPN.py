@@ -1,62 +1,51 @@
 class Stack:
-     def __init__(self):
-         self.items = []
+    """Implement a simple stack"""
+    def __init__(self):
+        self.items = []
 
-     def isEmpty(self):
-         return self.items == []
+    def push(self, item):
+        self.items.append(item)
 
-     def push(self, item):
-         self.items.append(item)
-
-     def pop(self):
+    def pop(self):
          return self.items.pop()
 
-     def peek(self):
-         return self.items[len(self.items)-1]
+def isInt(value):
+    """to test if input is an integer or operator"""
+    try:
+        int(value)
+        return True
+    except:
+        return False
 
-     def size(self):
-         return len(self.items)
-
-     def open(self):
-         print(self.items())
-         return
-      
-
-
-def isInt(value): #to test if input is an integer or operator
-  try:
-    int(value)
-    return True
-  except:
-    return False
-
-stack = Stack()
-
+stack = Stack() #Initialise a simple stack to pop operands and results to
 
 text = input("Input Postfix String: ")
 
-
-for i in text:
-     
-     if i != isInt(i):
+for i in text: #Read each character of the string
+     if isInt(i): #If it is a number
           i = int(i)
-          stack.push(i) #Stack for postfix list of instructions now complete
-     elif i == "+":
-          a = stack.pop()
+          stack.push(i) #Push to stack for postfix
+     elif i == '+': #If operator, pop last two item from stack and carry out operation
           b = stack.pop()
-          c = a + b
-          stack.push(c)
+          a = stack.pop()
+          stack.push(a+b)
+     elif i == '-':
+          b = stack.pop()
+          a = stack.pop()
+          stack.push(a-b)
+     elif i == '*':
+          b = stack.pop()
+          a = stack.pop()
+          stack.push(a*b)
+     elif i == '/':
+          b = stack.pop()
+          a = stack.pop()
+          stack.push(a/b)
+     elif i == '^':
+          b = stack.pop()
+          a = stack.pop()
+          stack.push(a**b)
      else:
           pass
 
-print ("Answer = ",stack.pop())
-          
-
-
-
-#adding to the operand stack
-     
-
-#for i in text:
-#    if isInt(i)==False:
-#      operator.append(i)
+print ("Answer = ",stack.pop()) #Final pop should be answer

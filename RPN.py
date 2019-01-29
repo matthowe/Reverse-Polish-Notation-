@@ -1,51 +1,58 @@
-class Stack:
-    """Implement a simple stack"""
-    def __init__(self):
-        self.items = []
+import operator
+ops = { "+": operator.add, "-": operator.sub, "*": operator.mul, "/": operator.truediv, "^": operator.pow}
 
-    def push(self, item):
-        self.items.append(item)
+class Stack:
+    def __init__(self):
+        self.content = []
+
+    def push(self,thing):
+        self.content.append(thing)
+
+    def isEmpty(self):
+        if len(self.content) == 0:
+            return True
+        else:
+            return False
 
     def pop(self):
-         return self.items.pop()
+        if self.isEmpty() == False:
+            return(self.content.pop())
+        else:
+            print('cannot pop from an empty list')
 
-def isInt(value):
-    """to test if input is an integer or operator"""
-    try:
-        int(value)
-        return True
-    except:
-        return False
+class Rpn:
+    def __init__(self,expression):
+        self.expression = expression
+        self.stack = Stack()
 
-stack = Stack() #Initialise a simple stack to pop operands and results to
+        self.getElement()
+        print(self.answer())
 
-text = input("Input Postfix String: ")
+    def getElement(self):
 
-for i in text: #Read each character of the string
-     if isInt(i): #If it is a number
-          i = int(i)
-          stack.push(i) #Push to stack for postfix
-     elif i == '+': #If operator, pop last two item from stack and carry out operation
-          b = stack.pop()
-          a = stack.pop()
-          stack.push(a+b)
-     elif i == '-':
-          b = stack.pop()
-          a = stack.pop()
-          stack.push(a-b)
-     elif i == '*':
-          b = stack.pop()
-          a = stack.pop()
-          stack.push(a*b)
-     elif i == '/':
-          b = stack.pop()
-          a = stack.pop()
-          stack.push(a/b)
-     elif i == '^':
-          b = stack.pop()
-          a = stack.pop()
-          stack.push(a**b)
-     else:
-          pass
+        for i in self.expression.split(" "):
+            try:
+                int(i)
+                self.isInt(i)
+                
+            except ValueError:
+                self.isOp(i)
+                
+    def isInt(self,i):
+        self.stack.push(int(i))
+        
 
-print ("Answer = ",stack.pop()) #Final pop should be answer
+    def isOp(self,i):
+        
+        a = self.stack.pop()
+        b = self.stack.pop()
+
+        self.stack.push(ops[i](b,a)) # push the result of the calculation on the stack
+
+
+    def answer(self):
+        return self.stack.pop() # pop final item from list which is answer
+    
+
+
+test = Rpn("2 8 2 2 + / ^")
